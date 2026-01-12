@@ -33,3 +33,8 @@ Project architecture:
 - We need to send a SELECT \* FROM "Todos"; to the PostgreSQL database which sends the SQL response back.
 - I use Prisma between the SvelteKit REST API and the PostgreSQL db, Prisma takes care of the SQL query translation and SQL response, converting both to acceptable formats, like GET-> SQL and SQL-> JSON.
 - Full architecture style: Svelte <-> SvelteKit <-> Prisma <-> PostgreSQL.
+
+Github:
+
+- Used github issues in conjunction with branching features.
+- Used to simulate real world development as well as having a better project overview.
