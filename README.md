@@ -1,40 +1,38 @@
-# TODO
+# sv
 
-Todo application using Svelte, Postgres and Vercel
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Notes
+## Creating a project
 
-The TODO application made is using Svelte, Postgres, Vercel.
+If you're seeing this, you've probably already done this step. Congrats!
 
-- Dev: Github
-- Web: Svelte
-- API: SvelteKit
-- DB: Postgres
-- Deployment: Vercel & Railway
+```sh
+# create a new project in the current directory
+npx sv create
 
-Will also use:
+# create a new project in my-app
+npx sv create my-app
+```
 
-- Typescript
-- Prisma
-- NPM scripts
+## Developing
 
-SvelteKit:
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-- Use already made todo from Svelte since UI is not important for this full-stack application, but the structure and technologies are.
+```sh
+npm run dev
 
-CRUD:
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-- Create Todo, Read the Todos, Update Todo, Delete Todo.
+## Building
 
-Project architecture:
+To create a production version of your app:
 
-- Frontend and UI using Svelte, Hosting using SvelteKit on Vercel and will have the APIs exposed here.
-- Frontend sends GET to SvelteKit, REST API on Sveltekit answers with JSON-object to the frontend.
-- We need to send a SELECT \* FROM "Todos"; to the PostgreSQL database which sends the SQL response back.
-- I use Prisma between the SvelteKit REST API and the PostgreSQL db, Prisma takes care of the SQL query translation and SQL response, converting both to acceptable formats, like GET-> SQL and SQL-> JSON.
-- Full architecture style: Svelte <-> SvelteKit <-> Prisma <-> PostgreSQL.
+```sh
+npm run build
+```
 
-Github:
+You can preview the production build with `npm run preview`.
 
-- Used github issues in conjunction with branching features.
-- Used to simulate real world development as well as having a better project overview.
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
