@@ -1,3 +1,7 @@
+<script lang="ts">
+  export let todo: Todo;
+</script>
+
 <!-- <div class="todo done">  -->
 <div class="todo">
   <form action="" method="">
@@ -20,7 +24,7 @@
   </form>
 
   <form action="" method="" class="text">
-    <input type="text" />
+    <input type="text" value={todo.text} />
     <button aria-label="Save todo" class="save">
       <svg
         width="16"
