@@ -1,27 +1,79 @@
+<script lang="ts">
+  export let todo: Todo;
+  export let onDeleted: (uid: string) => void = () => {};
+  export let onUpdate: (todo: Todo) => void = () => {};
+
+  async function remove() {
+    const res = await fetch(`/todos/${todo.uid}.json`, { method: 'DELETE' });
+    if (!res.ok) {
+      console.error('DELETE failed', res.status, await res.text());
+      return;
+    }
+    onDeleted(todo.uid);
+  }
+
+  let text = todo.text;
+
+  async function update() {
+    const res = await fetch(`/todos/${todo.uid}.json`, {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+
+    if (!res.ok) {
+      console.error('PATCH failed', res.status, await res.text());
+      return;
+    }
+
+    const updated = await res.json();
+    onUpdate(updated.todo);
+    text = updated.todo.text;
+  }
+
+  async function toggleDone() {
+    const res = await fetch(`/todos/${todo.uid}.json`, {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ done: !todo.done }),
+    });
+
+    if (!res.ok) {
+      console.error('PATCH failed', res.status, await res.text());
+      return;
+    }
+
+    const updated = await res.json();
+    onUpdate(updated.todo);
+  }
+</script>
+
 <!-- <div class="todo done">  -->
-<div class="todo">
-  <form action="" method="">
-    <input type="hidden" name="done" value="" />
-    <button aria-label="Mark done/not done" class="toggle">
-      <svg
-        class="check"
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="5 13 9 17 19 7" />
-      </svg>
-    </button>
-  </form>
+<div class="todo" class:done={todo.done}>
+  <button
+    aria-label="Mark todo as {todo.done ? 'not done' : 'done'}"
+    class="toggle"
+    type="button"
+    on:click={toggleDone}
+  >
+    <svg
+      class="check"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="5 13 9 17 19 7" />
+    </svg>
+  </button>
 
   <form action="" method="" class="text">
-    <input type="text" />
-    <button aria-label="Save todo" class="save">
+    <input type="text" bind:value={text} />
+    <button aria-label="Save todo" class="save" type="button" on:click={update}>
       <svg
         width="16"
         height="16"
@@ -39,26 +91,24 @@
     </button>
   </form>
 
-  <form action="" method="">
-    <button aria-label="Delete todo" class="delete">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="3 6 5 6 21 6" />
-        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-        <path d="M10 11v6" />
-        <path d="M14 11v6" />
-        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-      </svg>
-    </button>
-  </form>
+  <button aria-label="Delete todo" class="delete" type="button" on:click={remove}>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+    </svg>
+  </button>
 </div>
 
 <style>

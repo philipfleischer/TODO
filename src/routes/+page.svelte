@@ -1,8 +1,30 @@
-<script>
+<script lang="ts">
   import TodoItem from '$lib/todo-item.svelte';
+  import type { PageData } from './$types';
 
-  // Now Changing this changes it every title place in the code!
+  export let data: PageData;
+
   const title = 'Todo';
+  let text = '';
+  let todos = data.todos;
+
+  async function addTodo() {
+    const fd = new FormData();
+    fd.set('text', text);
+
+    const res = await fetch('/todos.json', {
+      method: 'POST',
+      body: fd,
+    });
+
+    if (!res.ok) {
+      return;
+    }
+
+    const created = await res.json();
+    todos = [created.todo, ...todos];
+    text = '';
+  }
 </script>
 
 <svelte:head>
@@ -11,12 +33,24 @@
 
 <div class="todos">
   <h1>{title}</h1>
-  <form action="" method="" class="new">
-    <input type="text" name="text" aria-label="Add a todo" placeholder="+ type to add a todo" />
+
+  <form class="new" on:submit|preventDefault={addTodo}>
+    <input
+      type="text"
+      name="text"
+      bind:value={text}
+      aria-label="Add a todo"
+      placeholder="+ type to add a todo"
+    />
   </form>
 
-  <!-- import todo.items in Svelte, $lib ensures we can copypaste the relative path anywhere-->
-  <TodoItem />
+  {#each todos as todo (todo.uid)}
+    <TodoItem
+      {todo}
+      onDeleted={(uid) => (todos = todos.filter((t) => t.uid !== uid))}
+      onUpdate={(updated) => (todos = todos.map((t) => (t.uid === updated.uid ? updated : t)))}
+    />
+  {/each}
 </div>
 
 <style>
