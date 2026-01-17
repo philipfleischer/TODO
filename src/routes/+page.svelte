@@ -1,7 +1,6 @@
 <script lang="ts">
   import TodoItem from '$lib/todo-item.svelte';
   import type { PageData } from './$types';
-
   export let data: PageData;
 
   const title = 'Todo';
@@ -34,6 +33,9 @@
 <div class="todos">
   <h1>{title}</h1>
 
+  <a href="/about-me">About me</a>
+
+  <!--<form class="new" on:submit|preventDefault={addTodo} use:enhance> -->
   <form class="new" on:submit|preventDefault={addTodo}>
     <input
       type="text"
