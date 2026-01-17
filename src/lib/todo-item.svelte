@@ -1,6 +1,7 @@
 <script lang="ts">
   export let todo: Todo;
   export let onDeleted: (uid: string) => void = () => {};
+  export let onUpdate: (todo: Todo) => void = () => {};
 
   async function remove() {
     const res = await fetch(`/todos/${todo.uid}.json`, { method: 'DELETE' });
@@ -9,6 +10,27 @@
       return;
     }
     onDeleted(todo.uid);
+  }
+
+  let text = todo.text;
+
+  async function update() {
+    const res = await fetch(`/todos/${todo.uid}.json`, {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+
+    if (!res.ok) {
+      console.error('PATCH failed', res.status, await res.text());
+      return;
+    }
+
+    const updated = await res.json();
+    onUpdate(updated.todo);
+
+    // hold input in sync after server response
+    text = updated.todo.text;
   }
 </script>
 
@@ -34,8 +56,8 @@
   </form>
 
   <form action="" method="" class="text">
-    <input type="text" value={todo.text} />
-    <button aria-label="Save todo" class="save" type="button">
+    <input type="text" bind:value={text} />
+    <button aria-label="Save todo" class="save" type="button" on:click={update}>
       <svg
         width="16"
         height="16"

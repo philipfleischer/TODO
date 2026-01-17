@@ -14,3 +14,11 @@ export function deleteTodo(uid: string) {
   todos = todos.filter((t) => t.uid !== uid);
   return todos.length !== before;
 }
+
+export function updateTodo(uid: string, updates: Partial<Pick<Todo, 'text' | 'done'>>) {
+  const idx = todos.findIndex((t) => t.uid === uid);
+  if (idx === -1) return null;
+
+  todos[idx] = { ...todos[idx], ...updates };
+  return todos[idx];
+}

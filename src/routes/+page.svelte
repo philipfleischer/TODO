@@ -45,7 +45,11 @@
   </form>
 
   {#each todos as todo (todo.uid)}
-    <TodoItem {todo} onDeleted={(uid) => (todos = todos.filter((t) => t.uid !== uid))} />
+    <TodoItem
+      {todo}
+      onDeleted={(uid) => (todos = todos.filter((t) => t.uid !== uid))}
+      onUpdate={(updated) => (todos = todos.map((t) => (t.uid === updated.uid ? updated : t)))}
+    />
   {/each}
 </div>
 
