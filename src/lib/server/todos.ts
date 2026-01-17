@@ -19,6 +19,12 @@ export function updateTodo(uid: string, updates: Partial<Pick<Todo, 'text' | 'do
   const idx = todos.findIndex((t) => t.uid === uid);
   if (idx === -1) return null;
 
-  todos[idx] = { ...todos[idx], ...updates };
-  return todos[idx];
+  const next = {
+    ...todos[idx],
+    ...(updates.text !== undefined ? { text: updates.text } : {}),
+    ...(updates.done !== undefined ? { done: updates.done } : {}),
+  };
+
+  todos[idx] = next;
+  return next;
 }

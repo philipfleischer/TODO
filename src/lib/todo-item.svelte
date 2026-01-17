@@ -28,32 +28,48 @@
 
     const updated = await res.json();
     onUpdate(updated.todo);
-
-    // hold input in sync after server response
     text = updated.todo.text;
+  }
+
+  async function toggleDone() {
+    const res = await fetch(`/todos/${todo.uid}.json`, {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ done: !todo.done }),
+    });
+
+    if (!res.ok) {
+      console.error('PATCH failed', res.status, await res.text());
+      return;
+    }
+
+    const updated = await res.json();
+    onUpdate(updated.todo);
   }
 </script>
 
 <!-- <div class="todo done">  -->
-<div class="todo">
-  <form action="" method="">
-    <input type="hidden" name="done" value="" />
-    <button aria-label="Mark done/not done" class="toggle">
-      <svg
-        class="check"
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="5 13 9 17 19 7" />
-      </svg>
-    </button>
-  </form>
+<div class="todo" class:done={todo.done}>
+  <button
+    aria-label="Mark todo as {todo.done ? 'not done' : 'done'}"
+    class="toggle"
+    type="button"
+    on:click={toggleDone}
+  >
+    <svg
+      class="check"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="5 13 9 17 19 7" />
+    </svg>
+  </button>
 
   <form action="" method="" class="text">
     <input type="text" bind:value={text} />
