@@ -7,13 +7,7 @@ declare global {
     text: string;
     done: boolean;
   };
-  namespace App {
-    // interface Error {}
-    // interface Locals {}
-    // interface PageData {}
-    // interface PageState {}
-    // interface Platform {}
-  }
+  namespace App {}
 }
 
 export {};

@@ -1,5 +1,15 @@
 <script lang="ts">
   export let todo: Todo;
+  export let onDeleted: (uid: string) => void = () => {};
+
+  async function remove() {
+    const res = await fetch(`/todos/${todo.uid}.json`, { method: 'DELETE' });
+    if (!res.ok) {
+      console.error('DELETE failed', res.status, await res.text());
+      return;
+    }
+    onDeleted(todo.uid);
+  }
 </script>
 
 <!-- <div class="todo done">  -->
@@ -25,7 +35,7 @@
 
   <form action="" method="" class="text">
     <input type="text" value={todo.text} />
-    <button aria-label="Save todo" class="save">
+    <button aria-label="Save todo" class="save" type="button">
       <svg
         width="16"
         height="16"
@@ -43,26 +53,24 @@
     </button>
   </form>
 
-  <form action="" method="">
-    <button aria-label="Delete todo" class="delete">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="3 6 5 6 21 6" />
-        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-        <path d="M10 11v6" />
-        <path d="M14 11v6" />
-        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-      </svg>
-    </button>
-  </form>
+  <button aria-label="Delete todo" class="delete" type="button" on:click={remove}>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+    </svg>
+  </button>
 </div>
 
 <style>

@@ -1,11 +1,9 @@
+import { addTodo, getTodos } from '$lib/server/todos';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-// TODO: Persist in database
-let todos: Todo[] = [];
-
-export const GET: RequestHandler = async () => {
-  return json(todos, { status: 200 });
+export const GET: RequestHandler = () => {
+  return json(getTodos(), { status: 200 });
 };
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -16,8 +14,6 @@ export const POST: RequestHandler = async ({ request }) => {
     return json({ error: 'Missing text' }, { status: 400 });
   }
 
-  //Want to get more information in, like datetime
-  //There is an error here, expected ")" but found "(" on randomUUID()
   const todo: Todo = {
     uid: crypto.randomUUID(),
     created_at: new Date().toISOString(),
@@ -25,8 +21,6 @@ export const POST: RequestHandler = async ({ request }) => {
     done: false,
   };
 
-  todos = [todo, ...todos];
-
-  // Best practice for API: return 201 + created object
+  addTodo(todo);
   return json({ ok: true, todo }, { status: 201 });
 };

@@ -45,7 +45,7 @@
   </form>
 
   {#each todos as todo (todo.uid)}
-    <TodoItem {todo} />
+    <TodoItem {todo} onDeleted={(uid) => (todos = todos.filter((t) => t.uid !== uid))} />
   {/each}
 </div>
 
