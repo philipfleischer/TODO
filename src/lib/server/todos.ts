@@ -1,30 +1,38 @@
-let todos: Todo[] = [];
+import { prisma } from '$lib/server/prisma';
+import type { Todo } from '@prisma/client';
 
-export function getTodos() {
-  return todos;
+export async function getTodos(): Promise<Todo[]> {
+  return prisma.todo.findMany({
+    orderBy: { created_at: 'desc' },
+  });
 }
 
-export function addTodo(todo: Todo) {
-  todos = [todo, ...todos];
-  return todo;
+export async function addTodo(text: string): Promise<Todo> {
+  return prisma.todo.create({
+    data: {
+      text,
+    },
+  });
 }
 
-export function deleteTodo(uid: string) {
-  const before = todos.length;
-  todos = todos.filter((t) => t.uid !== uid);
-  return todos.length !== before;
+export async function deleteTodo(uid: string): Promise<boolean> {
+  const res = await prisma.todo.deleteMany({
+    where: { uid },
+  });
+
+  return res.count === 1;
 }
 
-export function updateTodo(uid: string, updates: Partial<Pick<Todo, 'text' | 'done'>>) {
-  const idx = todos.findIndex((t) => t.uid === uid);
-  if (idx === -1) return null;
-
-  const next = {
-    ...todos[idx],
-    ...(updates.text !== undefined ? { text: updates.text } : {}),
-    ...(updates.done !== undefined ? { done: updates.done } : {}),
-  };
-
-  todos[idx] = next;
-  return next;
+export async function updateTodo(
+  uid: string,
+  updates: Partial<Pick<Todo, 'text' | 'done'>>,
+): Promise<Todo | null> {
+  try {
+    return await prisma.todo.update({
+      where: { uid },
+      data: updates,
+    });
+  } catch {
+    return null;
+  }
 }

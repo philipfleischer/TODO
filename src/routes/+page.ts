@@ -7,6 +7,6 @@ export const load = (async ({ fetch }) => {
     return { todos: [] as Todo[] };
   }
 
-  const todos = (await res.json()) as Todo[];
+  const { todos } = (await res.json()) as { todos: Todo[] };
   return { todos };
 }) satisfies PageLoad;

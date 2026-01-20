@@ -1,12 +1,12 @@
 import { addTodo, getTodos } from '$lib/server/todos';
 import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = () => {
-  return json(getTodos(), { status: 200 });
+export const GET = async () => {
+  const todos = await getTodos();
+  return json({ todos });
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST = async ({ request }) => {
   const data = await request.formData();
   const text = data.get('text');
 
@@ -14,13 +14,6 @@ export const POST: RequestHandler = async ({ request }) => {
     return json({ error: 'Missing text' }, { status: 400 });
   }
 
-  const todo: Todo = {
-    uid: crypto.randomUUID(),
-    created_at: new Date().toISOString(),
-    text: text.trim(),
-    done: false,
-  };
-
-  addTodo(todo);
-  return json({ ok: true, todo }, { status: 201 });
+  const todo = await addTodo(text.trim());
+  return json({ todo }, { status: 201 });
 };
