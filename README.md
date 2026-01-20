@@ -1,49 +1,168 @@
-# sv
+# Todo App — SvelteKit + Prisma + PostgreSQL
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+---
 
-## Creating a project
+A modern full-stack Todo application built with SvelteKit on the frontend, Prisma ORM for database access, and PostgreSQL hosted on Neon.
+The application is deployed serverlessly on Vercel.
 
-If you're seeing this, you've probably already done this step. Congrats!
+This project is intended as a realistic portfolio example, focusing on modern tooling, clean architecture, and real-world deployment workflows rather than being just a UI demo.
 
-```sh
-# create a new project in the current directory
-npx sv create
+---
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Tech Stack
 
-## Developing
+**Frontend**
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- Svelte 5
+- SvelteKit
+- Vite
 
-```sh
+**Backend**
+
+- SvelteKit server routes
+- Prisma ORM (v7)
+- PostgreSQL (Neon)
+
+**Deployment**
+
+- Vercel (serverless functions)
+- Neon (managed PostgreSQL)
+
+---
+
+## Features
+
+- Full CRUD functionality for todos
+- Data persistence using PostgreSQL
+- Optimistic UI updates (no full page reloads)
+- Server-side database access via Prisma
+- Production-ready deployment on Vercel
+
+⸻
+
+## Local Development
+
+Prerequisites
+
+- Node.js (18+ recommended)
+- npm
+- PostgreSQL database (Neon recommended)
+
+⸻
+
+## Environment Variables
+
+Create a .env file in the project root:
+
+DATABASE_URL=“postgresql://:@/?sslmode=require”
+
+⸻
+
+## Install Dependencies
+
+npm install
+
+⸻
+
+## Prisma Setup
+
+Generate Prisma client and run migrations:
+
+npx prisma generate
+npx prisma migrate dev
+
+⸻
+
+## Start Development Server
+
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+The application will be available at:
 
-## Building
+http://localhost:5173
 
-To create a production version of your app:
+⸻
 
-```sh
+## Prisma Studio (optional)
+
+To inspect and manage database content locally:
+
+npx prisma studio
+
+⸻
+
+## Production Build
+
 npm run build
-```
+npm run preview
 
-You can preview the production build with `npm run preview`.
+⸻
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Deployment
 
-### Run
+Vercel
 
-Terminal one write: **npm run dev**
-Terminal two write (if you want DB inspection): **npx prisma studio**
+The application is deployed on Vercel using a serverless adapter.
 
-#### Note
+Production build command:
 
-Find Vercel app deployed here: https://vercel.com/philipfleischers-projects/todo-of7e
+prisma generate && prisma migrate deploy && npm run build
 
-Find PostgreSQL database here: https://console.neon.tech/app/projects/fancy-field-40057897?branchId=br-flat-mode-agkryr4m&database=neondb
+⸻
+
+## Live Demo
+
+Vercel deployment
+https://vercel.com/philipfleischers-projects/todo-of7e
+
+PostgreSQL (Neon console)
+https://console.neon.tech/
+
+⸻
+
+## Project Structure (simplified)
+
+src/
+
+- lib/
+- server/
+- prisma.ts Prisma client configuration
+- todos.ts Database access logic
+- todo-item.svelte Todo UI component
+
+routes/
+
+- +page.svelte Main page
+- +page.ts Data loading
+- todos/
+- [uid].json/ API routes (GET, POST, PATCH, DELETE)
+
+prisma/
+
+- schema.prisma Prisma schema
+- migrations/ Database migrations
+
+⸻
+
+## Notes
+
+- The database schema is managed via Prisma migrations
+- All todos created through the UI are persisted directly to PostgreSQL
+- Neon was chosen for its simplicity and serverless-friendly setup
+- The project demonstrates a complete full-stack workflow suitable for portfolio use
+
+⸻
+
+## Future Improvements
+
+- Authentication
+- User-specific todos
+- Pagination and filtering
+- Automated testing
+- CI/CD checks
+
+⸻
+
+## License
+
+MIT
