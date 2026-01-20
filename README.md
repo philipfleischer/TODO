@@ -41,3 +41,9 @@ You can preview the production build with `npm run preview`.
 
 Terminal one write: **npm run dev**
 Terminal two write (if you want DB inspection): **npx prisma studio**
+
+#### Note
+
+Find Vercel app deployed here: https://vercel.com/philipfleischers-projects/todo-of7e
+
+Find PostgreSQL database here: https://console.neon.tech/app/projects/fancy-field-40057897?branchId=br-flat-mode-agkryr4m&database=neondb
