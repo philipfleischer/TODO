@@ -11,7 +11,7 @@ export const PATCH = async ({ params, request }) => {
   const data = await request.json();
 
   const updated = await updateTodo(params.uid, {
-    text: typeof data.text === 'string' ? data.text : undefined,
+    text: typeof data.text === 'string' ? data.text.trim() : undefined,
     done: typeof data.done === 'boolean' ? data.done : undefined,
   });
 
