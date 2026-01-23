@@ -7,6 +7,14 @@ The application is deployed serverlessly on Vercel.
 
 This project is intended as a realistic portfolio example, focusing on modern tooling, clean architecture, and real-world deployment workflows rather than being just a UI demo.
 
+⸻
+
+## Live Demo
+
+Vercel deployment Live Demo:
+https://github.com/user-attachments/assets/0204f0df-9fce-484a-aec4-8a4787bf0857
+
+
 ---
 
 ## Tech Stack
@@ -110,7 +118,7 @@ prisma generate && prisma migrate deploy && npm run build
 
 ⸻
 
-## Live Demo
+## Deployment
 
 Vercel deployment
 https://vercel.com/philipfleischers-projects/todo-of7e
