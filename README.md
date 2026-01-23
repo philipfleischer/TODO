@@ -14,7 +14,6 @@ This project is intended as a realistic portfolio example, focusing on modern to
 Vercel deployment Live Demo:
 https://github.com/user-attachments/assets/0204f0df-9fce-484a-aec4-8a4787bf0857
 
-
 ---
 
 ## Tech Stack
@@ -174,3 +173,12 @@ prisma/
 ## License
 
 MIT
+
+⸻
+
+## Acknowledgements
+
+This project draws initial inspiration from the following tutorial:
+https://www.youtube.com/watch?v=OUzaUJ3gEug
+
+While the tutorial provided a baseline concept for building a Todo app, I have refactored, enhanced, and extended the implementation extensively — including adding a custom backend with PostgreSQL, Prisma ORM, authentication structure (if any), UI improvements, deployment configuration on Vercel, and more. All code enhancements and design choices are my own.
